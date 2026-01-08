@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,11 +29,18 @@ public class UserService {
 
     public Users SaveNewUser(Users user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER", "ADMIN"));
         return userRepository.save(user);
 
     }
 
     public Users saveUser(Users user){
+        return userRepository.save(user);
+    }
+
+    public Users SaveNewAdmin(Users user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER", "ADMIN"));
         return userRepository.save(user);
     }
 
@@ -52,6 +60,4 @@ public class UserService {
     public Users findbyuserName(String UserName){
         return userRepository.findByUserName(UserName);
     }
-
-
 }

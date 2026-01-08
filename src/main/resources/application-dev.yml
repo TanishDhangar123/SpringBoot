@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      port : 8080
+      host : localhost
+      database : Journaldb
+      auto-index-creation : true
