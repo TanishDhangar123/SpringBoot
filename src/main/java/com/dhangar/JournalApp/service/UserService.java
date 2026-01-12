@@ -4,8 +4,11 @@ import com.dhangar.JournalApp.entity.JournalEntry;
 import com.dhangar.JournalApp.entity.Users;
 import com.dhangar.JournalApp.repository.JournalEntryRepository;
 import com.dhangar.JournalApp.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +20,7 @@ import java.util.Optional;
 
 
 @Component
+@Slf4j
 public class UserService {
 
 
@@ -27,10 +31,18 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
 
-    public Users SaveNewUser(Users user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER", "ADMIN"));
-        return userRepository.save(user);
+    public boolean SaveNewUser(Users user){
+
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER", "ADMIN"));
+            userRepository.save(user);
+            return true;
+        }catch(Exception e){
+            log.info("hahahahha");
+            log.error("The error has occured for {}", user.getUserName(), e);
+            return false;
+        }
 
     }
 
