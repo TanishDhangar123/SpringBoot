@@ -30,11 +30,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping()
-    public List<Users> getAllUsers(){
-        return userService.getAll();
-
-    }
 
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody Users user){
@@ -54,6 +49,13 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         userRepository.deleteById(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> greeting(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return new ResponseEntity<>("Hi " + authentication.getName(), HttpStatus.OK);
+
     }
 
 }
