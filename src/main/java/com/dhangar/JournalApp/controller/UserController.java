@@ -1,11 +1,13 @@
 package com.dhangar.JournalApp.controller;
 
 
+import com.dhangar.JournalApp.WeatherResponse;
 import com.dhangar.JournalApp.entity.JournalEntry;
 import com.dhangar.JournalApp.entity.Users;
 import com.dhangar.JournalApp.repository.UserRepository;
 import com.dhangar.JournalApp.service.JournalEntryService;
 import com.dhangar.JournalApp.service.UserService;
+import com.dhangar.JournalApp.service.WeatherService;
 import org.apache.catalina.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private WeatherService weatherService;
 
 
     @PutMapping
@@ -54,7 +59,12 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> greeting(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return new ResponseEntity<>("Hi " + authentication.getName(), HttpStatus.OK);
+        WeatherResponse weatherResponse = WeatherService.getWeather("Mumbai");
+        String greeting = "";
+        if(weatherResponse != null){
+            greeting = ", Weather feels like + " + weatherResponse.getCurrent().getFeelslike();
+        }
+        return new ResponseEntity<>("Hi " + authentication.getName() + greeting, HttpStatus.OK);
 
     }
 
