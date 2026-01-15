@@ -8,13 +8,13 @@ import com.dhangar.JournalApp.repository.UserRepository;
 import com.dhangar.JournalApp.service.JournalEntryService;
 import com.dhangar.JournalApp.service.UserService;
 import com.dhangar.JournalApp.service.WeatherService;
-import org.apache.catalina.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -56,13 +56,14 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
     @GetMapping
     public ResponseEntity<?> greeting(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        WeatherResponse weatherResponse = WeatherService.getWeather("Mumbai");
+        WeatherResponse response = weatherService.getWeather("Mumabai");
         String greeting = "";
-        if(weatherResponse != null){
-            greeting = ", Weather feels like + " + weatherResponse.getCurrent().getFeelslike();
+        if(response!= null){
+            greeting = ", Weather feels like + " + response.getCurrent().getFeelslike();
         }
         return new ResponseEntity<>("Hi " + authentication.getName() + greeting, HttpStatus.OK);
 

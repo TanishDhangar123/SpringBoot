@@ -4,4 +4,5 @@ spring:
       port : 8080
       host : localhost
       database : Journaldb
+      uri : mongodb+srv://tanishhotmail_db_user:tanish123456@cluster0.bvsjhas.mongodb.net/?appName=Cluster0
       auto-index-creation : true

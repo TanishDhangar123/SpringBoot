@@ -7,3 +7,7 @@ logging:
     net:
       com.dhangar:
         JouranlApp: DEBUG
+
+weather:
+  api:
+    key: "e12f798cb34a1e09aa6822117db684d0"
